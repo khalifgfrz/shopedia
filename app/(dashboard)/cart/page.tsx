@@ -3,9 +3,9 @@
 import CartCard from "@/components/cart/cart-card";
 import { Cart } from "@/components/cart/types";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 
-function Page() {
+function CartPage() {
   const [carts, setCarts] = useState<Cart[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,7 +38,7 @@ function Page() {
           },
         });
 
-        if (!res.ok) throw new Error("Failed to fetch products");
+        if (!res.ok) throw new Error("Product not found");
 
         const data = await res.json();
         setCarts(data.data);
@@ -89,4 +89,10 @@ function Page() {
   );
 }
 
-export default Page;
+export default function Page() {
+  return (
+    <Suspense fallback={<p>Loading cart data...</p>}>
+      <CartPage />
+    </Suspense>
+  );
+}

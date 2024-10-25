@@ -4,7 +4,7 @@
 
 import React, { useEffect, useState } from "react";
 import ProductCard from "@/components/product/product-card";
-import FilterWrapper from "./filter-wrapper"; // Import your FilterWrapper
+import FilterWrapper from "./filter-wrapper";
 import { FilterSettings, Product } from "@/components/product/types";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -15,7 +15,7 @@ const ProductWrapper: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState({
     product_name: "",
-    selectedCategories: [] as string[], // Updated to use selected categories
+    selectedCategories: [] as string[],
     sortBy: "",
   });
 
@@ -29,16 +29,16 @@ const ProductWrapper: React.FC = () => {
         const params = new URLSearchParams();
         if (filters.product_name) params.append("search", filters.product_name);
         if (filters.selectedCategories.length > 0) {
-          filters.selectedCategories.forEach((category) => params.append("categoryName", category)); // Append each selected category
+          filters.selectedCategories.forEach((category) => params.append("categoryName", category));
         }
         if (filters.sortBy) params.append("sort", filters.sortBy);
 
-        params.append("page", page.toString()); // Include current page in the params
+        params.append("page", page.toString());
 
         const URL = `${process.env.NEXT_PUBLIC_API_URL}/products?${params.toString()}`;
         const res = await fetch(URL);
 
-        if (!res.ok) throw new Error("Failed to fetch products");
+        if (!res.ok) throw new Error("Product not found");
 
         const data = await res.json();
         setProducts(data.data);
@@ -52,25 +52,17 @@ const ProductWrapper: React.FC = () => {
       }
     };
     fetchProducts(currentPage);
-  }, [currentPage, filters]); // Refetch when currentPage or filters change
+  }, [currentPage, filters]);
 
   const handleApplyFilters = (newFilters: FilterSettings) => {
     setFilters(newFilters);
-    router.push(`/`); // Reset to the first page when applying new filters
+    router.push(`/`);
   };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  /*************  ✨ Codeium Command ⭐  *************/
-  /**
-   * Handles the page change for product pagination.
-   * Navigates to the specified page and sets loading state.
-   * If page is out of range, the function returns early.
-   *
-   * @param page - The page number to navigate to.
-   */
-  /******  7c0a3073-d4d7-4f5b-919c-8e35d002cabd  *******/ const handlePageChange = (page: number) => {
+  const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
     if (page === 1) {
       router.push(`/`);

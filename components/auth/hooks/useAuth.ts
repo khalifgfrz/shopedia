@@ -26,11 +26,11 @@ export default function useAuth() {
       console.log(tokenPayload);
       const userRole = tokenPayload.role;
 
-      if (userRole !== "admin") {
-        router.push("/");
+      if (userRole === "admin") {
+        router.push("/admin");
       }
 
-      router.push("/admin");
+      router.push("/");
     } else if (error) {
       console.log({ error });
     }
