@@ -17,8 +17,6 @@ const ProductWrapper: React.FC = () => {
     product_name: "",
     selectedCategories: [] as string[], // Updated to use selected categories
     sortBy: "",
-    minPrice: 0,
-    maxPrice: 100000,
   });
 
   const router = useRouter();
@@ -34,8 +32,7 @@ const ProductWrapper: React.FC = () => {
           filters.selectedCategories.forEach((category) => params.append("categoryName", category)); // Append each selected category
         }
         if (filters.sortBy) params.append("sort", filters.sortBy);
-        params.append("minPrice", filters.minPrice.toString());
-        params.append("maxPrice", filters.maxPrice.toString());
+
         params.append("page", page.toString()); // Include current page in the params
 
         const URL = `${process.env.NEXT_PUBLIC_API_URL}/products?${params.toString()}`;
@@ -59,13 +56,21 @@ const ProductWrapper: React.FC = () => {
 
   const handleApplyFilters = (newFilters: FilterSettings) => {
     setFilters(newFilters);
-    router.push(`/?page=1`); // Reset to the first page when applying new filters
+    router.push(`/`); // Reset to the first page when applying new filters
   };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  const handlePageChange = (page: number) => {
+  /*************  ✨ Codeium Command ⭐  *************/
+  /**
+   * Handles the page change for product pagination.
+   * Navigates to the specified page and sets loading state.
+   * If page is out of range, the function returns early.
+   *
+   * @param page - The page number to navigate to.
+   */
+  /******  7c0a3073-d4d7-4f5b-919c-8e35d002cabd  *******/ const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
     if (page === 1) {
       router.push(`/`);

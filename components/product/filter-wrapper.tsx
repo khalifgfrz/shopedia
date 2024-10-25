@@ -12,8 +12,6 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({ onApplyFilters }) => {
     product_name: "",
     selectedCategories: [] as string[], // Store selected categories
     sortBy: "",
-    minPrice: 0,
-    maxPrice: 100000,
   });
 
   // Hardcoded categories

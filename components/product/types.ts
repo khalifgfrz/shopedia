@@ -20,6 +20,4 @@ export interface FilterSettings {
   product_name: string;
   selectedCategories: string[];
   sortBy: string;
-  minPrice: number;
-  maxPrice: number;
 }
